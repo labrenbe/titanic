@@ -1,0 +1,8 @@
+apiVersion: v2
+name: titanic
+description: Helm chart for deploying the Titanic API server
+
+type: application
+
+version: 0.3.0
+appVersion: 0.3.0

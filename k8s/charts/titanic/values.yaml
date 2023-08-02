@@ -1,0 +1,40 @@
+replicaCount: 2
+
+image:
+  repository: registry.example.com/titanic
+  pullPolicy: IfNotPresent
+  tag: 0.3.0
+
+db:
+  user: titanic
+  name: titanic
+  port: 5432
+  host: ""
+  passwordSecret:
+    name: postgres-password
+    key: password
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+     drop:
+     - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+#minimize resource usage
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

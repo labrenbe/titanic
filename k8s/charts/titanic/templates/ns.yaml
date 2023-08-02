@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  #ArgoCD deploys a namespace without istio labels. This manifest will apply only the label.
+  name: {{ .Release.Namespace }}
+  labels:
+    istio-injection: enabled

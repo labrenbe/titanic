@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: titanic
+  labels:
+    app: titanic
+spec:
+  selector:
+    matchLabels:
+      app: titanic
+  endpoints:
+  - port: http
+    scheme: http
+    path: /metrics

@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+resources:
+- https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.5/manifests/install.yaml
+patchesStrategicMerge:
+- argocd-application-controller.yaml
+- argocd-applicationset-controller.yaml
+- argocd-dex-server.yaml
+- argocd-notifications-controller.yaml
+- argocd-redis.yaml
+- argocd-repo-server.yaml
+- argocd-server.yaml
+#GKE (which was used for development) uses Cilium which can lead to a bug in ArgoCD: https://github.com/cilium/cilium/issues/17349
+- argocd-cm.yaml

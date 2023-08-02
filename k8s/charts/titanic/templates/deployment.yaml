@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "titanic.fullname" . }}
+  labels:
+    app: titanic
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+     app: titanic
+  template:
+    metadata:
+      labels:
+        app: titanic
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: titanic
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /people
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /people
+              port: http
+          env:
+          - name: DB_USER
+            value: {{ .Values.db.user }}
+          - name: DB_NAME
+            value: {{ .Values.db.name }}
+          - name: DB_HOST
+            value: {{ .Values.db.host }}
+          - name: DB_PORT
+            value: "{{ .Values.db.port | default 5432 }}"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.db.passwordSecret.name }}
+                key: {{ .Values.db.passwordSecret.key }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

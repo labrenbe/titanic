@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: prometheus
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/labrenbe/titanic.git
+    targetRevision: HEAD
+    path: k8s/charts/kube-prometheus-stack
+    helm:
+      #Use built in grafana
+      #Don't filter on service monitor labels
+      values: |
+        prometheus:
+          prometheusSpec:
+            serviceMonitorSelectorNilUsesHelmValues: false
+            resources:
+              requests:
+                cpu: 500m
+                memory: 500Mi
+            volumeClaimTemplate:
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 2Gi
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prometheus
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
