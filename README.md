@@ -20,7 +20,7 @@ Personal data of passengers that can be accessed:
 - survived (true/false)
 
 ## API documentation
-A detailed documentation on the correct usage of the titanic API can be found in [app/swagger.yml](https://github.com/labrenbe/titanic/-/blob/main/app/swagger.yml).
+A detailed documentation on the correct usage of the titanic API can be found in [app/swagger.yml](https://github.com/labrenbe/titanic/blob/main/app/swagger.yml).
 
 ## Local deployment with docker-compose
 
@@ -43,7 +43,7 @@ go run ./initdb/initdb.go ./initdb/titanic.csv localhost 8080
 
 ## Deployment to Kubernetes
 To run titanic in production you might want to deploy it to kubernetes.
-Instructions on how to deploy titanic on kubernetes can be found in [k8s](https://github.com/labrenbe/titanic/-/tree/main/k8s).
+Instructions on how to deploy titanic on kubernetes can be found in [k8s](https://github.com/labrenbe/titanic/tree/main/k8s).
 
 ## Areas of improvement
 - Use govulncheck instead of trivy

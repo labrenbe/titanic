@@ -1,6 +1,6 @@
 # Titanic
 
-Web server that can be used to manage passengers that were aboard the Titanic. For API documentation please see [swagger.yml](https://github.com/labrenbe/titanic/-/blob/main/app/swagger.yml).
+Web server that can be used to manage passengers that were aboard the Titanic. For API documentation please see [swagger.yml](https://github.com/labrenbe/titanic/blob/main/app/swagger.yml).
 
 ## Requirements
 
